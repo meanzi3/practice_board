@@ -2,9 +2,11 @@ package com.minzi.practice_board.web;
 
 
 import com.minzi.practice_board.service.posts.PostsService;
+import com.minzi.practice_board.web.dto.PostsResponseDto;
 import com.minzi.practice_board.web.dto.PostsSaveRequestDto;
 import com.minzi.practice_board.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor // final이 선언된 모든 필드를 인자값으로 하는 생성자를 생성한다.
@@ -27,6 +29,23 @@ public class PostsApiController {
   @PutMapping("/api/v1/posts/{id}")
   public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto){
     return postsService.update(id, requestDto);
+  }
+
+  /**
+   * 삭제
+   */
+  @DeleteMapping("/api/v1/posts/{id}")
+  public Long delete(@PathVariable Long id){
+    postsService.delete(id);
+    return id;
+  }
+
+  /**
+   * id 별 조회
+   */
+  @GetMapping("/api/v1/posts/{id}")
+  public PostsResponseDto findById(@PathVariable Long id) {
+    return postsService.findById(id);
   }
 
 }
