@@ -39,7 +39,7 @@ public class IndexController {
    * 게시글 등록 페이지
    */
   @GetMapping("/posts/save")
-  public String postsSave(){
+  public String postsSave(@LoginUser SessionUser user){
     return "posts-save";
   }
 
@@ -54,4 +54,10 @@ public class IndexController {
     return "posts-update";
   }
   // id로 해당 게시글을 찾아 dto로 담고 "post" 라는 이름으로 posts-update.html로 전달
+
+  // 로그인 페이지
+  @GetMapping("/oauth-login")
+  public String login(){
+    return "login";
+  }
 }
