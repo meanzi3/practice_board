@@ -1,5 +1,6 @@
 package com.minzi.practice_board.web;
 
+import com.minzi.practice_board.config.auth.LoginUser;
 import com.minzi.practice_board.config.auth.dto.SessionUser;
 import com.minzi.practice_board.service.posts.PostsService;
 import com.minzi.practice_board.web.dto.PostsResponseDto;
@@ -23,10 +24,8 @@ public class IndexController {
    * 기본 페이지 (게시글 목록 조회)
    */
   @GetMapping("/")
-  public String index(Model model){
+  public String index(Model model, @LoginUser SessionUser user){
     model.addAttribute("posts", postsService.findAllDesc());
-    SessionUser user = (SessionUser) httpSession.getAttribute("user");
-    // 로그인 성공 시 세션에서 "user" 값을 가져온다.
     if(user != null){
       model.addAttribute("userName",user.getName());
       // 세션에 저장된 값이 있을 때만 model 에 userName으로 등록한다.
