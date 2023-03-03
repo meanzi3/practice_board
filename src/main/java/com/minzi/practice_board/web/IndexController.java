@@ -1,5 +1,6 @@
 package com.minzi.practice_board.web;
 
+import com.minzi.practice_board.config.auth.dto.SessionUser;
 import com.minzi.practice_board.service.posts.PostsService;
 import com.minzi.practice_board.web.dto.PostsResponseDto;
 import com.minzi.practice_board.web.dto.PostsSaveRequestDto;
@@ -9,11 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
 
   private final PostsService postsService;
+  private final HttpSession httpSession;
 
   /**
    * 기본 페이지 (게시글 목록 조회)
@@ -21,6 +25,12 @@ public class IndexController {
   @GetMapping("/")
   public String index(Model model){
     model.addAttribute("posts", postsService.findAllDesc());
+    SessionUser user = (SessionUser) httpSession.getAttribute("user");
+    // 로그인 성공 시 세션에서 "user" 값을 가져온다.
+    if(user != null){
+      model.addAttribute("userName",user.getName());
+      // 세션에 저장된 값이 있을 때만 model 에 userName으로 등록한다.
+    }
     return "index";
   }
   // Model : 서버 템플릿 엔진에서 사용할 수 있는 객체를 저장할 수 있다.
