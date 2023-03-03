@@ -39,7 +39,8 @@ public class IndexController {
    * 게시글 등록 페이지
    */
   @GetMapping("/posts/save")
-  public String postsSave(@LoginUser SessionUser user){
+  public String postsSave(Model model,@LoginUser SessionUser user){
+    model.addAttribute("userName",user.getName());
     return "posts-save";
   }
 
